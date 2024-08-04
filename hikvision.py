@@ -11,10 +11,18 @@ def loadLastSyncDate():
             return datetime.strptime(data["last_sync_date"], "%Y-%m-%dT%H:%M:%S+05:45")
     except (FileNotFoundError, json.JSONDecodeError):
         return datetime.now() - timedelta(days=1)  # Default to 1 day ago if file doesn't exist or is corrupted
+    
 def saveLastSyncDate(last_sync_date):
-    data = {"last_sync_date": last_sync_date.strftime("%Y-%m-%dT%H:%M:%S+05:45")}
+    # Extract the date and set the time to 00:00:00
+    start_of_day = datetime(last_sync_date.year, last_sync_date.month, last_sync_date.day, 0, 0, 0)
+    # Format the datetime object to the desired string format with +05:45 timezone offset
+    formatted_date = start_of_day.strftime("%Y-%m-%dT00:00:00+05:45")
+    data = {"last_sync_date": formatted_date}
+    
+    # Save to JSON file
     with open("last_sync_date.json", "w") as file:
         json.dump(data, file)
+
 def groupByFilteredData(data):
     # Group the attendance data first by date and then by 'employeeNoString'
     grouped_data = defaultdict(lambda: defaultdict(list))
