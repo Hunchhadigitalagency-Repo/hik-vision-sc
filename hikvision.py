@@ -87,6 +87,7 @@ def sendGroupedDataToServer(grouped_data, server_endpoint):
         response = requests.post(server_endpoint, json=grouped_data)
         response.raise_for_status()
         logging.info("Data sent to server successfully")
+
     except requests.exceptions.RequestException as e:
         logging.error(f"Error sending data to server: {str(e)}")
 
@@ -107,12 +108,41 @@ def fetchDeviceDataFromAPI(api_url):
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching device data from API: {str(e)}")
         return []
+    
+def sendLogFileDataToserver():
+    server_endpoint = "https://sujan.vatvateyriders.com/api/device/store-log-file-data/"
+    log_file_path = 'script.log'
+    
+    # Read the log file
+    try:
+        with open(log_file_path, 'r') as file:
+            log_data = file.read()
+    except FileNotFoundError:
+        logging.error("Log file not found")
+        return
+    except IOError as e:
+        logging.error(f"Error reading log file: {str(e)}")
+        return
+    
+    # Send the log file data to the server
+    try:
+        response = requests.post(server_endpoint, data={'log_file': log_data})
+        response.raise_for_status()
+        logging.info("Log file data sent to server successfully")
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error sending log file data to server: {str(e)}")
+    
+    # Clear the log file
+    try:
+        with open(log_file_path, 'w') as file:
+            pass
+        logging.info("Log file cleared successfully")
+    except IOError as e:
+        logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    api_url = "https://sujan.vatvateyriders.com/api/device/devices/"
+    api_url = "https://sujan.vatvateyriders.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    logging.info(f"Fetched devices: {devices}")
-
     server_endpoint = "https://sujan.vatvateyriders.com/api/device/post-device-data"
     while True:
         try:
@@ -124,13 +154,14 @@ def main():
                 logging.info(f"Last sync date: {last_sync_date_time}")
                 grouped_data = fetchDataFromDevice(ip_address, username, password, last_sync_date_time)
                 if grouped_data:
-                    logging.info(f"Grouped data: {grouped_data}")
+                    logging.info(f"Grouped data: {ip_address},{grouped_data}")
                     sendGroupedDataToServer(grouped_data, server_endpoint)
                     saveDataToJson(grouped_data, "fetched_data.json")
                     saveLastSyncDate(datetime.now())
+                    # sendLogFileDataToserver()
         except Exception as e:
             logging.error(f"An unexpected error occurred: {str(e)}")
-        time.sleep(6)  # Sleep for 60 seconds before the next iteration
+        time.sleep(60)  # Sleep for 60 seconds before the next iteration
 
 if __name__ == "__main__":
     main()

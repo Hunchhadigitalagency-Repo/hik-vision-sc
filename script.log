@@ -4,3 +4,68 @@
 2024-07-19 14:31:06,938 - INFO - Data sent to server successfully
 2024-07-19 14:31:06,941 - INFO - Data saved to fetched_data.json
 2024-07-19 14:31:06,942 - INFO - Last sync date saved successfully
+2024-08-04 12:16:49,497 - INFO - Fetched devices: {'links': {'next': None, 'previous': None}, 'count': 1, 'page_size': 5, 'total_pages': 1, 'current_page': 1, 'results': [{'id': 3, 'device_ip': '192.168.1.115', 'device_user_name': 'admin', 'device_password': 'Ultimate@22', 'device_last_synced': None, 'organization': 1}]}
+2024-08-04 12:16:49,498 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:16:55,500 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:17:01,504 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:17:07,506 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:12,435 - INFO - Fetched devices: {'links': {'next': None, 'previous': None}, 'count': 1, 'page_size': 5, 'total_pages': 1, 'current_page': 1, 'results': [{'id': 3, 'device_ip': '192.168.1.115', 'device_user_name': 'admin', 'device_password': 'Ultimate@22', 'device_last_synced': None, 'organization': 1}]}
+2024-08-04 12:18:12,435 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:18,438 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:24,443 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:30,449 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:36,454 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:18:42,459 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:21:39,518 - INFO - Fetched devices: {'links': {'next': None, 'previous': None}, 'count': 1, 'page_size': 5, 'total_pages': 1, 'current_page': 1, 'results': [{'id': 3, 'device_ip': '192.168.1.115', 'device_user_name': 'admin', 'device_password': 'Ultimate@22', 'device_last_synced': None, 'organization': 1}]}
+2024-08-04 12:21:39,519 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:21:45,522 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:21:51,524 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:21:53,099 - INFO - Fetched devices: {'links': {'next': None, 'previous': None}, 'count': 1, 'page_size': 5, 'total_pages': 1, 'current_page': 1, 'results': [{'id': 3, 'device_ip': '192.168.1.115', 'device_user_name': 'admin', 'device_password': 'Ultimate@22', 'device_last_synced': None, 'organization': 1}]}
+2024-08-04 12:21:53,099 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:21:59,103 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:22:05,107 - ERROR - An unexpected error occurred: string indices must be integers, not 'str'
+2024-08-04 12:35:09,925 - INFO - Fetched devices: [{'id': 3, 'device_ip': '192.168.1.115', 'device_user_name': 'admin', 'device_password': 'Ultimate@22', 'device_last_synced': None, 'organization': 1}, {'id': 4, 'device_ip': '192.168.1.115', 'device_user_name': 'sujanchaudharyit69@gmail.com', 'device_password': 'password', 'device_last_synced': None, 'organization': 8}]
+2024-08-04 12:35:09,930 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:36:24,934 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b09ac0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:36:24,936 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:37:39,943 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b09910>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:38:39,950 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:39:54,958 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a150>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:39:54,961 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:41:09,968 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a8a0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:42:09,974 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:43:24,983 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b020>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:43:24,985 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:44:39,991 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b830>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:45:39,997 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:46:55,019 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b500>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:46:55,022 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:48:10,029 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b020>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:49:10,037 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:50:25,044 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a780>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:50:25,046 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:51:40,045 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a000>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:52:40,050 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:53:55,055 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0bef0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:53:55,059 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:55:10,066 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b38890>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:56:10,069 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:57:25,075 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b09bb0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:57:25,078 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 12:58:40,084 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a2a0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 12:59:40,092 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:00:55,101 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0afc0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:00:55,105 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:02:10,111 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b560>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:03:10,116 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:04:25,125 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b38ad0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:04:25,128 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:05:40,133 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0bc50>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:06:40,142 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:07:55,142 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0b110>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:07:55,146 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:09:10,150 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b0a690>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:10:10,157 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:11:25,163 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b09eb0>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
+2024-08-04 13:11:25,166 - INFO - Last sync date: 2024-07-01 14:31:06
+2024-08-04 13:12:40,171 - ERROR - An error occurred during the request: HTTPConnectionPool(host='192.168.1.115', port=80): Max retries exceeded with url: /ISAPI/AccessControl/AcsEvent?format=json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x103b09610>, 'Connection to 192.168.1.115 timed out. (connect timeout=None)'))
