@@ -110,7 +110,7 @@ def fetchDeviceDataFromAPI(api_url):
         return []
     
 def sendLogFileDataToserver():
-    server_endpoint = "https://sujan.vatvateyriders.com/api/device/store-log-file-data/"
+    server_endpoint = "https://manish.vatvateyriders.com/api/device/store-log-file-data/"
     log_file_path = 'script.log'
     
     # Read the log file
@@ -141,9 +141,9 @@ def sendLogFileDataToserver():
         logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    api_url = "https://sujan.vatvateyriders.com/api/device/get-devices/all/"
+    api_url = "https://manish.vatvateyriders.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    server_endpoint = "https://sujan.vatvateyriders.com/api/device/post-device-data"
+    server_endpoint = "https://manish.vatvateyriders.com/api/device/post-device-data"
     while True:
         try:
             for device in devices:
