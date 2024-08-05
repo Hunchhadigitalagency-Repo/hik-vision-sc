@@ -1,2 +1,0 @@
-2024-08-05 16:43:55,418 - INFO - Log file cleared successfully
-2024-08-05 16:43:55,419 - ERROR - An unexpected error occurred: sendLogFileDataToserver() takes 0 positional arguments but 1 was given
