@@ -110,7 +110,7 @@ def fetchDeviceDataFromAPI(api_url):
         return []
     
 def sendLogFileDataToserver(ip):
-    server_endpoint = "https://rajin.vatvateyriders.com/api/log/log-entries/"
+    server_endpoint = "https://manish.vatvateyriders.com/api/log/log-entries/"
     log_file_path = 'script.log'
     
     # Read the log file
@@ -148,9 +148,9 @@ def sendLogFileDataToserver(ip):
 
 def main():
     
-    api_url = "https://sujan.vatvateyriders.com/api/device/get-devices/all/"
+    api_url = "https://manish.vatvateyriders.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    server_endpoint = "https://sujan.vatvateyriders.com/api/device/post-device-data"
+    server_endpoint = "https://manish.vatvateyriders.com/api/device/post-device-data"
     while True:
         try:
             for device in devices:
