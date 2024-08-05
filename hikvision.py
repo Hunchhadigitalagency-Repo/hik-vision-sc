@@ -109,10 +109,10 @@ def fetchDeviceDataFromAPI(api_url):
         logging.error(f"Error fetching device data from API: {str(e)}")
         return []
     
-def sendLogFileDataToserver():
-    server_endpoint = "https://manish.vatvateyriders.com/api/device/store-log-file-data/"
+def sendLogFileDataToserver(ip_address):
+    server_endpoint = "https://manish.vatvateyriders.com/api/log/log-entries/"
     log_file_path = 'script.log'
-    
+    print(ip_address)
     # Read the log file
     try:
         with open(log_file_path, 'r') as file:
@@ -124,9 +124,17 @@ def sendLogFileDataToserver():
         logging.error(f"Error reading log file: {str(e)}")
         return
     
+    # Prepare data to send
+    payload = {
+        'log_text': log_data,
+        'device_ip': ip_address
+    }
+
+    print(payload['device_ip'])
+    
     # Send the log file data to the server
     try:
-        response = requests.post(server_endpoint, data={'log_file': log_data})
+        response = requests.post(server_endpoint, json=payload)
         response.raise_for_status()
         logging.info("Log file data sent to server successfully")
     except requests.exceptions.RequestException as e:
@@ -134,8 +142,7 @@ def sendLogFileDataToserver():
     
     # Clear the log file
     try:
-        with open(log_file_path, 'w') as file:
-            pass
+        open(log_file_path, 'w').close()
         logging.info("Log file cleared successfully")
     except IOError as e:
         logging.error(f"Error clearing log file: {str(e)}")
@@ -158,7 +165,8 @@ def main():
                     sendGroupedDataToServer(grouped_data, server_endpoint)
                     saveDataToJson(grouped_data, "fetched_data.json")
                     saveLastSyncDate(datetime.now())
-                    # sendLogFileDataToserver()
+                    sendLogFileDataToserver(ip_address)
+
         except Exception as e:
             logging.error(f"An unexpected error occurred: {str(e)}")
         time.sleep(60)  # Sleep for 60 seconds before the next iteration
