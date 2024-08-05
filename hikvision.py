@@ -147,7 +147,6 @@ def sendLogFileDataToserver(ip):
         logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    
     api_url = "https://manish.vatvateyriders.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
     server_endpoint = "https://manish.vatvateyriders.com/api/device/post-device-data"

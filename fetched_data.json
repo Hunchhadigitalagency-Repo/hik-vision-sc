@@ -1,0 +1,76 @@
+{
+    "2024-08-04": {
+        "0244": [
+            {
+                "major": 5,
+                "minor": 38,
+                "time": "2024-08-04T15:27:18+05:45",
+                "cardType": 1,
+                "name": "manish chy",
+                "cardReaderNo": 1,
+                "doorNo": 1,
+                "employeeNoString": "0244",
+                "type": 0,
+                "serialNo": 1233,
+                "userType": "normal",
+                "currentVerifyMode": "cardOrFaceOrFp",
+                "attendanceStatus": "checkIn",
+                "label": "Check In",
+                "mask": "unknown"
+            },
+            {
+                "major": 5,
+                "minor": 38,
+                "time": "2024-08-04T15:50:33+05:45",
+                "cardType": 1,
+                "name": "manish chy",
+                "cardReaderNo": 1,
+                "doorNo": 1,
+                "employeeNoString": "0244",
+                "type": 0,
+                "serialNo": 1250,
+                "userType": "normal",
+                "currentVerifyMode": "cardOrFaceOrFp",
+                "attendanceStatus": "checkOut",
+                "label": "Check Out",
+                "mask": "unknown"
+            }
+        ],
+        "002": [
+            {
+                "major": 5,
+                "minor": 38,
+                "time": "2024-08-04T15:58:31+05:45",
+                "cardType": 1,
+                "name": "rishi",
+                "cardReaderNo": 1,
+                "doorNo": 1,
+                "employeeNoString": "002",
+                "type": 0,
+                "serialNo": 1254,
+                "userType": "normal",
+                "currentVerifyMode": "cardOrFaceOrFp",
+                "attendanceStatus": "checkIn",
+                "label": "Check In",
+                "mask": "unknown"
+            },
+            {
+                "major": 5,
+                "minor": 38,
+                "time": "2024-08-04T16:16:59+05:45",
+                "cardType": 1,
+                "name": "rishi",
+                "cardReaderNo": 1,
+                "doorNo": 1,
+                "employeeNoString": "002",
+                "type": 0,
+                "serialNo": 1258,
+                "userType": "normal",
+                "currentVerifyMode": "cardOrFaceOrFp",
+                "attendanceStatus": "checkIn",
+                "label": "Check In",
+                "mask": "unknown"
+            }
+        ]
+    }
+}
