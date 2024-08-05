@@ -109,7 +109,7 @@ def fetchDeviceDataFromAPI(api_url):
         logging.error(f"Error fetching device data from API: {str(e)}")
         return []
     
-def sendLogFileDataToserver(ip):
+def sendLogFileDataToserver():
     server_endpoint = "https://manish.vatvateyriders.com/api/log/log-entries/"
     log_file_path = 'script.log'
     
