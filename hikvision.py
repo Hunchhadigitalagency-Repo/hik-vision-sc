@@ -161,7 +161,7 @@ def main():
                 logging.info(f"Last sync date: {last_sync_date_time}")
                 grouped_data = fetchDataFromDevice(ip_address, username, password, last_sync_date_time)
                 if grouped_data:
-                    logging.info(f"Grouped data: {ip_address},{grouped_data}")
+                    logging.info(f"Grouped data fetched from: {ip_address},{grouped_data}")
                     sendGroupedDataToServer(grouped_data, server_endpoint)
                     saveDataToJson(grouped_data, "fetched_data.json")
                     saveLastSyncDate(datetime.now())
