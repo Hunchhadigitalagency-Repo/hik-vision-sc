@@ -82,11 +82,25 @@ def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
         logging.error(f"An error occurred during the request: {str(e)}")
         return None
 
-def sendGroupedDataToServer(grouped_data, server_endpoint):
+def sendGroupedDataToServer(grouped_data, server_endpoint, organization_id):
     try:
-        response = requests.post(server_endpoint, json=grouped_data)
-        response.raise_for_status()
-        logging.info("Data sent to server successfully")
+        # Include the organization ID in the payload
+        payload = {
+            "organization_id": organization_id,
+            "data": grouped_data
+        }
+
+        # Send the request to the server
+        response = requests.post(server_endpoint, json=payload)
+        response.raise_for_status()  # Raise an exception for bad responses
+
+        # Log the server's response content
+        try:
+            server_response_data = response.json()  # If the response is in JSON format
+            logging.info(f"Data sent to server successfully. Server response: {server_response_data}")
+        except ValueError:
+            # If the response is not JSON, log the raw text
+            logging.info(f"Data sent to server successfully. Server response: {response.text}")
 
     except requests.exceptions.RequestException as e:
         logging.error(f"Error sending data to server: {str(e)}")
@@ -112,7 +126,6 @@ def fetchDeviceDataFromAPI(api_url):
 def sendLogFileDataToserver(ip_address):
     server_endpoint = "https://manish.vatvateyriders.com/api/log/log-entries/"
     log_file_path = 'script.log'
-    print(ip_address)
     # Read the log file
     try:
         with open(log_file_path, 'r') as file:
@@ -129,8 +142,6 @@ def sendLogFileDataToserver(ip_address):
         'log_text': log_data,
         'device_ip': ip_address
     }
-
-    print(payload['device_ip'])
     
     # Send the log file data to the server
     try:
@@ -157,12 +168,13 @@ def main():
                 ip_address = device["device_ip"]
                 username = device["device_user_name"]
                 password = device["device_password"]
+                organization_id = device["organization"]
                 last_sync_date_time = loadLastSyncDate()
                 logging.info(f"Last sync date: {last_sync_date_time}")
                 grouped_data = fetchDataFromDevice(ip_address, username, password, last_sync_date_time)
                 if grouped_data:
                     logging.info(f"Grouped data fetched from: {ip_address},{grouped_data}")
-                    sendGroupedDataToServer(grouped_data, server_endpoint)
+                    sendGroupedDataToServer(grouped_data, server_endpoint, organization_id)
                     saveDataToJson(grouped_data, "fetched_data.json")
                     saveLastSyncDate(datetime.now())
                     sendLogFileDataToserver(ip_address)
