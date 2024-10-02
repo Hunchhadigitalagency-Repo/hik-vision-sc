@@ -16,17 +16,19 @@ def loadLastSyncDate():
     except (FileNotFoundError, json.JSONDecodeError):
         logging.error("File not found or JSON decode error in last_sync_date.json")
         return datetime.now() - timedelta(days=1)  # Default to 1 day ago if file doesn't exist or is corrupted
-    
-def saveLastSyncDate(last_sync_date):
-    # Extract the date and set the time to 00:00:00
-    start_of_day = datetime(last_sync_date.year, last_sync_date.month, last_sync_date.day, 0, 0, 0)
-    # Format the datetime object to the desired string format with +05:45 timezone offset
-    formatted_date = start_of_day.strftime("%Y-%m-%dT00:00:00+05:45")
-    data = {"last_sync_date": formatted_date}
-    
-    # Save to JSON file
-    with open("last_sync_date.json", "w") as file:
-        json.dump(data, file)
+
+def saveLastSyncDate():
+    current_time = datetime.now()
+    rounded_time = current_time.replace(minute=0, second=0, microsecond=0)  # Round down to the nearest hour
+
+    # Load the last sync date to check if it has changed
+    last_sync_date = loadLastSyncDate()
+
+    # Only save the new time if it's a different hour
+    if last_sync_date.hour != rounded_time.hour or last_sync_date.date() != rounded_time.date():
+        with open("last_sync_date.json", "w") as file:
+            json.dump({"last_sync_date": rounded_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")}, file)
+        logging.info(f"Last sync date updated to: {rounded_time.strftime('%Y-%m-%dT%H:%M:%S+05:45')}")
 
 def groupByFilteredData(data):
     grouped_data = defaultdict(lambda: defaultdict(list))
@@ -54,30 +56,79 @@ def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
                 return None
         else:
             last_sync_date_time = last_sync_date_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")
+        
         today = datetime.now()
         start_time = last_sync_date_time
-        end_time = today.replace(hour=23, minute=59, second=59).strftime("%Y-%m-%dT%H:%M:%S+05:45")
-        payload = {
-            "AcsEventCond": {
-                "searchID": "1",
-                "searchResultPosition": 0,
-                "maxResults": 999999,
-                "major": 5,
-                "minor": 38,
-                "startTime": start_time,
-                "endTime": end_time,
-                "eventAttribute": "attendance"
+        end_time = today.strftime("%Y-%m-%dT%H:%M:%S+05:45")  # Current time as end_time
+
+        # List of payloads to iterate over
+        payloads = [
+            {
+                "AcsEventCond": {
+                    "searchID": "0",
+                    "searchResultPosition": 0,
+                    "major": 0,
+                    "minor": 0,
+                    "maxResults": 999999999999999999999999999999999,
+                    "startTime": start_time,
+                    "endTime": end_time,
+                    "eventAttribute": "attendance"
+                }
+            },
+            {
+                "AcsEventCond": {
+                    "searchID": "0",
+                    "searchResultPosition": 0,
+                    "major": 5,
+                    "minor": 38,
+                    "maxResults": 999999999999999999999999999999999,
+                    "startTime": start_time,
+                    "endTime": end_time,
+                    "eventAttribute": "attendance"
+                }
+            },
+            {
+                "AcsEventCond": {
+                    "searchID": "0",
+                    "searchResultPosition": 0,
+                    "major": 5,
+                    "minor": 39,
+                    "maxResults": 999999999999999999999999999999999,
+                    "startTime": start_time,
+                    "endTime": end_time,
+                    "eventAttribute": "attendance"
+                }
+            },
+            {
+                "AcsEventCond": {
+                    "searchID": "0",
+                    "searchResultPosition": 0,
+                    "major": 5,
+                    "minor": 39,
+                    "maxResults": 999999999999999999999999999999999,
+                    "startTime": start_time,
+                    "endTime": end_time,
+                    "eventAttribute": "attendance"
+                }
             }
-        }
-        response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
-        response.raise_for_status()
-        data = response.json()
-        filtered_events = [
-            event for event in data.get("AcsEvent", {}).get("InfoList", [])
-            if event.get("major") == 5 and event.get("minor") == 38
         ]
-        grouped_data = groupByFilteredData(filtered_events)
-        return grouped_data
+
+        all_grouped_data = []
+
+        for payload in payloads:
+            response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
+            response.raise_for_status()
+            data = response.json()
+
+            filtered_events = [
+                event for event in data.get("AcsEvent", {}).get("InfoList", [])
+                if event.get("major") == 5
+            ]
+            grouped_data = groupByFilteredData(filtered_events)
+            all_grouped_data.append(grouped_data)
+
+        return all_grouped_data
+
     except requests.exceptions.RequestException as e:
         logging.error(f"An error occurred during the request: {str(e)}")
         return None
@@ -89,7 +140,7 @@ def sendGroupedDataToServer(grouped_data, server_endpoint, organization_id):
             "organization_id": organization_id,
             "data": grouped_data
         }
-
+        print(payload)
         # Send the request to the server
         response = requests.post(server_endpoint, json=payload)
         response.raise_for_status()  # Raise an exception for bad responses
@@ -124,7 +175,7 @@ def fetchDeviceDataFromAPI(api_url):
         return []
     
 def sendLogFileDataToserver(ip_address):
-    server_endpoint = "https://manish.vatvateyriders.com/api/log/log-entries/"
+    server_endpoint = "https://gorakha.hajirkhata.com/api/log/log-entries/"
     log_file_path = 'script.log'
     # Read the log file
     try:
@@ -159,9 +210,9 @@ def sendLogFileDataToserver(ip_address):
         logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    api_url = "https://manish.vatvateyriders.com/api/device/get-devices/all/"
+    api_url = "https://gorakha.hajirkhata.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    server_endpoint = "https://manish.vatvateyriders.com/api/device/post-device-data"
+    server_endpoint = "https://gorakha.hajirkhata.com/api/device/post-device-data"
     while True:
         try:
             for device in devices:
@@ -176,7 +227,7 @@ def main():
                     logging.info(f"Grouped data fetched from: {ip_address},{grouped_data}")
                     sendGroupedDataToServer(grouped_data, server_endpoint, organization_id)
                     saveDataToJson(grouped_data, "fetched_data.json")
-                    saveLastSyncDate(datetime.now())
+                    saveLastSyncDate()
                     sendLogFileDataToserver(ip_address)
 
         except Exception as e:
