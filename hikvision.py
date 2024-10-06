@@ -50,82 +50,93 @@ def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
     try:
         if isinstance(last_sync_date_time, str):
             try:
-                last_sync_date_time = datetime.strptime(last_sync_date_time, "%Y-%m-%dT%H:%M:%S+05:45").strftime("%Y-%m-%dT%H:%M:%S+05:45")
+                last_sync_date_time = datetime.strptime(last_sync_date_time, "%Y-%m-%dT%H:%M:%S+05:45")
             except ValueError:
                 logging.error("Invalid date format for last_sync_date_time")
                 return None
         else:
-            last_sync_date_time = last_sync_date_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")
-        
-        today = datetime.now()
-        start_time = last_sync_date_time
-        end_time = today.strftime("%Y-%m-%dT%H:%M:%S+05:45")  # Current time as end_time
+            last_sync_date_time = last_sync_date_time
 
-        # List of payloads to iterate over
-        payloads = [
-            {
-                "AcsEventCond": {
-                    "searchID": "0",
-                    "searchResultPosition": 0,
-                    "major": 0,
-                    "minor": 0,
-                    "maxResults": 999999999999999999999999999999999,
-                    "startTime": start_time,
-                    "endTime": end_time,
-                    "eventAttribute": "attendance"
-                }
-            },
-            {
-                "AcsEventCond": {
-                    "searchID": "0",
-                    "searchResultPosition": 0,
-                    "major": 5,
-                    "minor": 38,
-                    "maxResults": 999999999999999999999999999999999,
-                    "startTime": start_time,
-                    "endTime": end_time,
-                    "eventAttribute": "attendance"
-                }
-            },
-            {
-                "AcsEventCond": {
-                    "searchID": "0",
-                    "searchResultPosition": 0,
-                    "major": 5,
-                    "minor": 39,
-                    "maxResults": 999999999999999999999999999999999,
-                    "startTime": start_time,
-                    "endTime": end_time,
-                    "eventAttribute": "attendance"
-                }
-            },
-            {
-                "AcsEventCond": {
-                    "searchID": "0",
-                    "searchResultPosition": 0,
-                    "major": 5,
-                    "minor": 39,
-                    "maxResults": 999999999999999999999999999999999,
-                    "startTime": start_time,
-                    "endTime": end_time,
-                    "eventAttribute": "attendance"
-                }
-            }
-        ]
+        today = datetime.now()
+        end_time = today  # Current time as end_time
 
         all_grouped_data = []
 
-        for payload in payloads:
-            response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
-            response.raise_for_status()
-            data = response.json()
+        # Loop in 1-hour increments from last_sync_date_time to end_time
+        current_start_time = last_sync_date_time
+        while current_start_time < end_time:
+            current_end_time = min(current_start_time + timedelta(hours=1), end_time)
 
-            filtered_events = [
-                event for event in data.get("AcsEvent", {}).get("InfoList", [])
-                if event.get("major") == 5
+            # Format times as required
+            start_time_str = current_start_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")
+            end_time_str = current_end_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")
+
+            # List of payloads to iterate over
+            payloads = [
+                {
+                    "AcsEventCond": {
+                        "searchID": "0",
+                        "searchResultPosition": 0,
+                        "major": 0,
+                        "minor": 0,
+                        "maxResults": 1000,  # Adjusted to a reasonable value
+                        "startTime": start_time_str,
+                        "endTime": end_time_str,
+                        "eventAttribute": "attendance"
+                    }
+                },
+                {
+                    "AcsEventCond": {
+                        "searchID": "0",
+                        "searchResultPosition": 0,
+                        "major": 5,
+                        "minor": 38,
+                        "maxResults": 1000,
+                        "startTime": start_time_str,
+                        "endTime": end_time_str,
+                        "eventAttribute": "attendance"
+                    }
+                },
+                {
+                    "AcsEventCond": {
+                        "searchID": "0",
+                        "searchResultPosition": 0,
+                        "major": 5,
+                        "minor": 39,
+                        "maxResults": 1000,
+                        "startTime": start_time_str,
+                        "endTime": end_time_str,
+                        "eventAttribute": "attendance"
+                    }
+                },
+                {
+                    "AcsEventCond": {
+                        "searchID": "0",
+                        "searchResultPosition": 0,
+                        "major": 5,
+                        "minor": 75,
+                        "maxResults": 1000,
+                        "startTime": start_time_str,
+                        "endTime": end_time_str,
+                        "eventAttribute": "attendance"
+                    }
+                }
             ]
-            grouped_data = groupByFilteredData(filtered_events)
-            all_grouped_data.append(grouped_data)
+
+            for payload in payloads:
+                response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
+                response.raise_for_status()
+                data = response.json()
+
+                filtered_events = [
+                    event for event in data.get("AcsEvent", {}).get("InfoList", [])
+                    if event.get("major") == 5
+                ]
+                grouped_data = groupByFilteredData(filtered_events)
+                all_grouped_data.append(grouped_data)
+
+            # Move to the next hour
+            current_start_time = current_end_time
 
         return all_grouped_data
 
