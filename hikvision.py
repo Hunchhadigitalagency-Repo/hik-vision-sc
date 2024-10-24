@@ -18,17 +18,18 @@ def loadLastSyncDate():
         return datetime.now() - timedelta(days=1)  # Default to 1 day ago if file doesn't exist or is corrupted
 
 def saveLastSyncDate():
+    # Set the time to today's date at 00:00:00
     current_time = datetime.now()
-    rounded_time = current_time.replace(minute=0, second=0, microsecond=0)  # Round down to the nearest hour
+    midnight_time = current_time.replace(hour=0, minute=0, second=0, microsecond=0)
 
     # Load the last sync date to check if it has changed
     last_sync_date = loadLastSyncDate()
 
-    # Only save the new time if it's a different hour
-    if last_sync_date.hour != rounded_time.hour or last_sync_date.date() != rounded_time.date():
+    # Only save the new time if it's not already today's midnight
+    if last_sync_date != midnight_time:
         with open("last_sync_date.json", "w") as file:
-            json.dump({"last_sync_date": rounded_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")}, file)
-        logging.info(f"Last sync date updated to: {rounded_time.strftime('%Y-%m-%dT%H:%M:%S+05:45')}")
+            json.dump({"last_sync_date": midnight_time.strftime("%Y-%m-%dT%H:%M:%S+05:45")}, file)
+        logging.info(f"Last sync date updated to: {midnight_time.strftime('%Y-%m-%dT%H:%M:%S+05:45')}")
 
 def groupByFilteredData(data):
     grouped_data = defaultdict(lambda: defaultdict(list))
@@ -137,7 +138,6 @@ def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
 
             # Move to the next hour
             current_start_time = current_end_time
-
         return all_grouped_data
 
     except requests.exceptions.RequestException as e:
@@ -186,7 +186,7 @@ def fetchDeviceDataFromAPI(api_url):
         return []
     
 def sendLogFileDataToserver(ip_address):
-    server_endpoint = "https://gorakha.hajirkhata.com/api/log/log-entries/"
+    server_endpoint = "https://hunchha.hajirkhata.com/api/log/log-entries/"
     log_file_path = 'script.log'
     # Read the log file
     try:
@@ -221,9 +221,9 @@ def sendLogFileDataToserver(ip_address):
         logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    api_url = "https://gorakha.hajirkhata.com/api/device/get-devices/all/"
+    api_url = "https://hunchha.hajirkhata.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    server_endpoint = "https://gorakha.hajirkhata.com/api/device/post-device-data"
+    server_endpoint = "https://hunchha.hajirkhata.com/api/device/post-device-data"
     while True:
         try:
             for device in devices:
@@ -234,12 +234,13 @@ def main():
                 last_sync_date_time = loadLastSyncDate()
                 logging.info(f"Last sync date: {last_sync_date_time}")
                 grouped_data = fetchDataFromDevice(ip_address, username, password, last_sync_date_time)
+
                 if grouped_data:
                     logging.info(f"Grouped data fetched from: {ip_address},{grouped_data}")
                     sendGroupedDataToServer(grouped_data, server_endpoint, organization_id)
                     saveDataToJson(grouped_data, "fetched_data.json")
                     saveLastSyncDate()
-                    sendLogFileDataToserver(ip_address)
+                    # sendLogFileDataToserver(ip_address)
 
         except Exception as e:
             logging.error(f"An unexpected error occurred: {str(e)}")
