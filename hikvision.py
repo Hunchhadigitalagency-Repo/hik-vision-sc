@@ -7,7 +7,8 @@ import logging
 import os
 
 # Determine a writable path for the log file
-log_path = os.path.expanduser("~/Desktop/hik-vision-sc/script.log")  # Example: Logs in your script directory
+log_path = os.path.expanduser("~/Desktop/hik-vision-sc/script.log")  # Example: Logs in your script directory for mac 
+# log_path = os.path.expanduser("script.log")  # Example: Logs in your script directory for windows 
 
 # Configure logging
 logging.basicConfig(
