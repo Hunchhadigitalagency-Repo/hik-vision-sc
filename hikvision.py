@@ -4,10 +4,17 @@ from collections import defaultdict
 import time
 import json
 import logging
+import os
+
+# Determine a writable path for the log file
+log_path = os.path.expanduser("~/Desktop/hik-vision-sc/script.log")  # Example: Logs in your script directory
 
 # Configure logging
-logging.basicConfig(filename='script.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
+logging.basicConfig(
+    filename=log_path,
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 def loadLastSyncDate():
     try:
         with open("last_sync_date.json", "r") as file:
