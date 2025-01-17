@@ -247,8 +247,8 @@ def main():
                     logging.info(f"Grouped data fetched from: {ip_address},{grouped_data}")
                     sendGroupedDataToServer(grouped_data, server_endpoint, organization_id)
                     saveDataToJson(grouped_data, "fetched_data.json")
-                    saveLastSyncDate()
-                    # sendLogFileDataToserver(ip_address)
+            saveLastSyncDate()
+            sendLogFileDataToserver(ip_address)
 
         except Exception as e:
             logging.error(f"An unexpected error occurred: {str(e)}")
