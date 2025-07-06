@@ -55,6 +55,7 @@ def groupByFilteredData(data):
     return filtered_grouped_data
 
 def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
+    print(ip_address, username, password, last_sync_date_time)
     url = f"http://{ip_address}/ISAPI/AccessControl/AcsEvent?format=json"
     try:
         if isinstance(last_sync_date_time, str):
@@ -133,12 +134,37 @@ def fetchDataFromDevice(ip_address, username, password, last_sync_date_time):
             ]
 
             for payload in payloads:
-                response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
-                response.raise_for_status()
-                data = response.json()
+                all_events_for_payload = []
+                search_position = 0
+                
+                while True:
+                    # Update the searchResultPosition for pagination
+                    payload["AcsEventCond"]["searchResultPosition"] = search_position
+                    
+                    response = requests.post(url, json=payload, auth=requests.auth.HTTPDigestAuth(username, password))
+                    response.raise_for_status()
+                    data = response.json()
 
+                    info_list = data.get("AcsEvent", {}).get("InfoList", [])
+                    
+                    # If InfoList is empty, we've reached the end of pagination
+                    if not info_list:
+                        break
+                    
+                    print(f"\n--- Events Fetched (Position: {search_position}) ---")
+                    for event in info_list:
+                        print(json.dumps(event, indent=4))
+                    print("--- End of Events ---\n")
+                    
+                    # Add events to our collection
+                    all_events_for_payload.extend(info_list)
+                    
+                    # Move to next page (increment by 10 as that's the page size)
+                    search_position += 10
+
+                # Process all events for this payload
                 filtered_events = [
-                    event for event in data.get("AcsEvent", {}).get("InfoList", [])
+                    event for event in all_events_for_payload
                     if event.get("major") == 5
                 ]
                 grouped_data = groupByFilteredData(filtered_events)
@@ -194,7 +220,7 @@ def fetchDeviceDataFromAPI(api_url):
         return []
     
 def sendLogFileDataToserver(ip_address):
-    server_endpoint = "https://hunchha.hajirkhata.com/api/log/log-entries/"
+    server_endpoint = "https://aertc.hajirkhata.com/api/log/log-entries/"
     log_file_path = 'script.log'
     # Read the log file
     try:
@@ -229,9 +255,9 @@ def sendLogFileDataToserver(ip_address):
         logging.error(f"Error clearing log file: {str(e)}")
 
 def main():
-    api_url = "https://hunchha.hajirkhata.com/api/device/get-devices/all/"
+    api_url = "https://hitechvalley.hajirkhata.com/api/device/get-devices/all/"
     devices = fetchDeviceDataFromAPI(api_url)
-    server_endpoint = "https://hunchha.hajirkhata.com/api/device/post-device-data"
+    server_endpoint = "https://hitechvalley.hajirkhata.com/api/device/post-device-data"
     while True:
         try:
             for device in devices:
